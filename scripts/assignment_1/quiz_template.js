@@ -28,7 +28,7 @@ const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
 const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
 const signer = new ethers.Wallet(
-    process.env.METAMASK_1_PRIVATE_KEY,
+    process.env.METAMASK_PRIVATE_KEY,
     sepoliaProvider
 );
 
@@ -45,11 +45,14 @@ async function main() {
     // Hint: method `askQuestion()`
 
     // Your code here.
-
+    const tx = await quizContract.askQuestion();
+    const receipt = await tx.wait();
     // From the transaction receipt we can extract useful information, such as
     // as the question's text and id that were stored in the logs
     // (we will understand logs in detail later in the course).
     const { text, id } = extractQuestion(quizContract, receipt);
+    console.log(`Question id: ${id}`)
+    console.log(`Question test: ${text}`)
 
     // Now YOU answer the question!
     // Capture user input from the terminal.
@@ -59,11 +62,15 @@ async function main() {
     // Hint: method `answerQuestion`.
 
     // Your code here.
+    const tx2 = await quizContract.answerQuestion(id, userAnswer);
+    const receipt2 = await tx2.wait();
+    console.log(receipt2);
+
 
     // C. Optional. Verify that the answer is correctly stored.
     // Hint: method `getAnswer(questionId)`
-
-    // Your code here.
+    const answer = await quizContract.getAnswer(id);
+    console.log(`The answer is: ${answer}`);
 }
 
 
