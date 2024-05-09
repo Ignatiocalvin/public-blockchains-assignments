@@ -16,7 +16,7 @@ async function main() {
     const [signer1, signer2, signer3] = await ethers.getSigners();
 
     // Pick the deployer (default is signer1).
-    const signer = signer3;
+    const signer = signer1;
     console.log("Deployer of contract is:", signer.address);
 
 
@@ -24,7 +24,7 @@ async function main() {
     ////////////
 
     // Contract address.
-    const contractAddr = "YOUR_CONTRACT_ADDRESS";
+    const contractAddr = "0xb9195BB1b9Df5b2425ee9eCFC4555BF58e75A416";
 
     // Locate ABI as created by Hardhat after compilation/deployment.
     // (adjust names and path accordingly).
@@ -33,7 +33,7 @@ async function main() {
         "..",
         "artifacts",
         "contracts",
-        "Token.sol",
+        "Token_template.sol",
         "CensorableToken.json"
     );
     // console.log(pathToABI);
@@ -49,10 +49,10 @@ async function main() {
 
     // Owner.
     const owner = signer.address;
-    // console.log(owner);
+    console.log(owner);
     
     // If owner is defined in your contract check that it is the same as above.
-    // console.log("Owner is ", await contract.owner());
+    console.log("Owner is ", await contract.owner());
 
     // Address used for blacklisting.
     const testSigner = signer2;
@@ -85,7 +85,7 @@ async function main() {
         }
 
         const totalSupply = await contract.totalSupply();
-
+        console.log("Total supply", ethers.formatEther(totalSupply));
         if (balOwner !== totalSupply - expectedBalVal) {
             console.info("  Error! Balance of owner is not totalSupply - 10.");
         } else {
@@ -112,7 +112,7 @@ async function main() {
 
     };
 
-    // await taskA2();
+    await taskA2();
 
     // TASK B and C.
     ////////////////
